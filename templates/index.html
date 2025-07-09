@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroScan AI – Precision Report Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-teal-100 via-white to-gray-100 min-h-screen font-sans antialiased">
+
+  <div class="flex items-center justify-center px-4 py-20">
+    <div class="max-w-3xl w-full bg-white/80 backdrop-blur-md shadow-2xl rounded-2xl p-10 border border-teal-200">
+
+      <!-- Title Section -->
+      <div class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-teal-700 tracking-wide">NeuroScan AI</h1>
+        <p class="mt-2 text-lg text-gray-600 font-medium">Precision Report Analyzer for Smarter Health Insights</p>
+      </div>
+
+      <!-- Upload Form -->
+      <form method="POST" enctype="multipart/form-data" class="space-y-6">
+        <div>
+          <label for="report" class="block text-sm font-semibold text-gray-700 mb-2">
+            Upload Your Medical Report (.txt)
+          </label>
+          <input 
+            type="file" 
+            name="report" 
+            accept=".txt" 
+            required
+            class="block w-full px-4 py-3 text-sm bg-gray-50 border border-teal-300 rounded-xl focus:ring-2 focus:ring-teal-500 shadow-sm"
+          />
+        </div>
+        <div>
+          <button 
+            type="submit"
+            class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-xl transition duration-300 shadow-md"
+          >
+            🚀 Analyze Now
+          </button>
+        </div>
+      </form>
+
+      <!-- Diagnosis Result -->
+      {% if diagnosis %}
+      <div class="mt-10">
+        <h2 class="text-xl font-semibold text-teal-800 mb-3">🧬 Diagnosis Summary</h2>
+        <div class="bg-white border border-teal-200 p-5 rounded-xl shadow-inner space-y-3 text-gray-700">
+          {% for line in diagnosis.split('\n') %}
+            {% if line.startswith('-') %}
+              <p>• {{ line[1:] }}</p>
+            {% elif ':' in line %}
+              <p><span class="font-bold">{{ line.split(':')[0] }}:</span> {{ line.split(':', 1)[1] }}</p>
+            {% else %}
+              <p>{{ line }}</p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Error -->
+      {% if error %}
+        <p class="mt-6 text-center text-red-600 font-medium">{{ error }}</p>
+      {% endif %}
+
+    </div>
+  </div>
+
+</body>
+</html>
